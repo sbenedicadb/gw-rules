@@ -1,0 +1,195 @@
+{
+  "type": "object",
+  "properties": {
+    "condition": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/groupCondition"
+        },
+        {
+          "$ref": "#/definitions/matcherCondition"
+        },
+        {
+          "$ref": "#/definitions/historicalCondition"
+        }
+      ]
+    },
+  },
+  "definitions": {
+    "groupCondition": {
+      "type": "object",
+      "properties": {
+        "definition": {
+          "$ref": "#/definitions/groupDefinition"
+        },
+        "type": {
+          "enum": [
+            "group"
+          ]
+        }
+      },
+      "required": [
+        "definition",
+        "type"
+      ]
+    },
+    "matcherCondition": {
+      "type": "object",
+      "properties": {
+        "definition": {
+          "$ref": "#/definitions/matcherDefinition"
+        },
+        "type": {
+          "enum": [
+            "matcher"
+          ]
+        }
+      },
+      "required": [
+        "definition",
+        "type"
+      ]
+    },
+    "historicalCondition": {
+      "type": "object",
+      "properties": {
+        "definition": {
+          "$ref": "#/definitions/historicalDefinition"
+        },
+        "type": {
+          "enum": [
+            "historical"
+          ]
+        }
+      },
+      "required": [
+        "definition",
+        "type"
+      ]
+    },
+    "matcherDefinition": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string"
+        },
+        "matcher": {
+          "enum": [
+            "eq",
+            "ne",
+            "ex",
+            "nx",
+            "gt",
+            "ge",
+            "lt",
+            "le",
+            "co",
+            "nc",
+            "sw",
+            "ew"
+          ]
+        },
+        "values": {
+          "type": "array"
+        }
+      },
+      "required": [
+        "key",
+        "matcher"
+      ]
+    },
+    "historicalEvent": {
+      "type": "object",
+    },
+    "historicalDefinition": {
+      "type": "object",
+      "properties": {
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/historicalEvent"
+          }
+        },
+        "from": {
+          "type": "number"
+        },
+        "to": {
+          "type": "number"
+        },
+        "matcher": {
+          "enum": [
+            "eq",
+            "ne",
+            "ex",
+            "nx",
+            "gt",
+            "ge",
+            "lt",
+            "le",
+            "co",
+            "nc",
+            "sw",
+            "ew"
+          ]
+        },
+        "value": {
+          "type": "number"
+        },
+        "searchType": {
+          "enum": [
+            "any",
+            "ordered"
+          ]
+        }
+      },
+      "required": [
+        "events",
+        "matcher",
+        "value"
+      ]
+    },
+    "groupDefinition": {
+      "type": "object",
+      "properties": {
+        "matchers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/matcherCondition"
+          }
+        },
+        "groups": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/groupCondition"
+          }
+        },
+        "conditions": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "$ref": "#/definitions/matcherCondition"
+              },
+              {
+                "$ref": "#/definitions/groupCondition"
+              },
+              {
+                "$ref": "#/definitions/historicalCondition"
+              }
+            ]
+          }
+        },
+        "logic": {
+          "enum": [
+            "and",
+            "or"
+          ]
+        }
+      },
+      "required": [
+        "conditions",
+        "logic"
+      ]
+    }
+  }
+}
